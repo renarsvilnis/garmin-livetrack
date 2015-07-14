@@ -1,6 +1,6 @@
 ## Node garmin live tracking
 
-Server side application for getting 
+Node module for getting to live tracking data from Garmin devices.
 
 ## Before using it?
 

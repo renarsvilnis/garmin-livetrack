@@ -1,7 +1,7 @@
 {
   "name": "garmin-livetrack",
   "version": "1.0.0",
-  "description": "Node module for getting to Garmin LiveTrack data from devices",
+  "description": "Node module for getting to live tracking data from Garmin devices",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
