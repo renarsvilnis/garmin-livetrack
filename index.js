@@ -15,7 +15,8 @@ var defaults = {
   tls: true,
   label: 'INBOX',
   // deleteAfterRead: true,
-  // reconnect: true
+  // reconnect: true,
+  autoUpdate: true
 };
 
 var Livetrack = function(config) {
