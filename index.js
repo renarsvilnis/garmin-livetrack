@@ -36,15 +36,14 @@ var Livetrack = function(config) {
   mailService.on('session', function(sessionId, sessionToken) {
     console.log('New Session found', sessionId, sessionToken);
 
-    garminService = new GarminService(sessionId, sessionToken);
+    garminService = new GarminService(sessionId, sessionToken, function(err) {
+      if(err) {
+        that.emit('error', err);
+        return;
+      }
 
-    garminService.on('session', function() {
       that.emit('session');
-    });
 
-    garminService.on('error', function(err) {
-      console.log('GarminService error:', err);
-      that.emit('error');
     });
 
   });
