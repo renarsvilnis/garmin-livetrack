@@ -15,7 +15,8 @@ var defaults = {
   label: 'INBOX',
   // deleteAfterRead: true,
   // reconnect: true,
-  autoUpdate: true
+  // ignoreSeen: true
+  // autoUpdate: true
 };
 
 var Livetrack = function(options) {
@@ -62,16 +63,16 @@ Livetrack.prototype._mailServiceFactory = function() {
   // TODO: check if existing MailService then remove events
 
   this._mailService = new MailService(this._options);
-  this._mailService.on('ready', this._mailReady.bind(this));
-  this._mailService.on('session', this._mailSession.bind(this));
-  this._mailService.on('error', this._mailError.bind(this));
+  this._mailService.on('ready', this._onMailReady.bind(this));
+  this._mailService.on('session', this._onMailSession.bind(this));
+  this._mailService.on('error', this._onMailError.bind(this));
 };
 
 /**
  * Mail service on ready event
  * @private
  */
-Livetrack.prototype._mailReady = function() {
+Livetrack.prototype._onMailReady = function() {
   this.emit('ready');
 };
 
@@ -81,7 +82,7 @@ Livetrack.prototype._mailReady = function() {
  * @param  {String} sessionId    Garmin service session id
  * @param  {String} sessionToken Garmin service session token
  */
-Livetrack.prototype._mailSession = function(sessionId, sessionToken) {
+Livetrack.prototype._onMailSession = function(sessionId, sessionToken) {
   this._garminService = new GarminService(sessionId, sessionToken, (function(err) {
 
     if(err) {
@@ -98,7 +99,7 @@ Livetrack.prototype._mailSession = function(sessionId, sessionToken) {
  * @private
  * @param  {Error} err
  */
-Livetrack.prototype._mailError = function(err) {
+Livetrack.prototype._onMailError = function(err) {
   this.emit('error', err);
 };
 
