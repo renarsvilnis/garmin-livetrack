@@ -19,14 +19,14 @@ var defaults = {
   autoUpdate: true
 };
 
-var Livetrack = function(config) {
+var Livetrack = function(options) {
 
   var that = this;
 
   // extend defaults
-  var _config = objectAssign(defaults, config);
+  var _options = objectAssign(defaults, options);
 
-  var mailService = new MailService(_config);
+  var mailService = new MailService(_options);
   var garminService;
 
   mailService.on('ready', (function() {
