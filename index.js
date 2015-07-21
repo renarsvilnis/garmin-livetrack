@@ -22,18 +22,21 @@ var Livetrack = function(options) {
 
   /**
    * Options object
+   * @private
    * @type {Object}
    */
-  var _options = objectAssign(defaults, options);
+  this._options = objectAssign(defaults, options);
 
   /**
    * Garmin service instance
+   * @private
    * @type {GarminService}
    */
   this._garminService = null;
 
   /**
    * Mail service instance
+   * @private
    * @type {MailService}
    */
   this._mailService = null;
@@ -44,19 +47,21 @@ var Livetrack = function(options) {
 
 /**
  * Extend service prototype with EventEmitter
+ * @private
  * @type {object}
  */
 Livetrack.prototype.__proto__ = events.EventEmitter.prototype;
 
 /**
  * Factory for creating a mail service
+ * @private
  * @type {Object}
  */
 Livetrack.prototype._mailServiceFactory = function() {
 
   // TODO: check if existing MailService then remove events
 
-  this._mailService = new MailService(_options);
+  this._mailService = new MailService(this._options);
   this._mailService.on('ready', this._mailReady.bind(this));
   this._mailService.on('session', this._mailSession.bind(this));
   this._mailService.on('error', this._mailError.bind(this));
@@ -64,6 +69,7 @@ Livetrack.prototype._mailServiceFactory = function() {
 
 /**
  * Mail service on ready event
+ * @private
  */
 Livetrack.prototype._mailReady = function() {
   this.emit('ready');
@@ -71,32 +77,29 @@ Livetrack.prototype._mailReady = function() {
 
 /**
  * Mail service on session event
+ * @private
  * @param  {String} sessionId    Garmin service session id
  * @param  {String} sessionToken Garmin service session token
  */
 Livetrack.prototype._mailSession = function(sessionId, sessionToken) {
-  console.log('New Session found', sessionId, sessionToken);
-
   this._garminService = new GarminService(sessionId, sessionToken, (function(err) {
+
     if(err) {
       this.emit('error', err);
-      return;
+    } else {
+      this.emit('session');
     }
-
-    this.emit('session');
 
   }).bind(this));
 };
 
 /**
  * Mail service on error event
+ * @private
  * @param  {Error} err
  */
 Livetrack.prototype._mailError = function(err) {
-  console.log('MailService error:', err);
   this.emit('error', err);
 };
-
-
 
 module.exports = Livetrack;
