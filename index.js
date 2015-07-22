@@ -12,6 +12,7 @@ var defaults = {
   host: 'imap.gmail.com',
   port: 993,
   tls: true,
+  secure: true,
   label: 'INBOX',
   // deleteAfterRead: true,
   // reconnect: true,
