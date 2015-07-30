@@ -107,3 +107,5 @@ npm install --save garmin-livetrack
 ## API
 
 ## TODO
+
+- add [promises](https://github.com/then/promise)?
