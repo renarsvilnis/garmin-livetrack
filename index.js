@@ -84,15 +84,18 @@ Livetrack.prototype._onMailReady = function() {
  * @param  {String} sessionToken Garmin service session token
  */
 Livetrack.prototype._onMailSession = function(sessionId, sessionToken) {
-  this._garminService = new GarminService(sessionId, sessionToken, (function(err) {
+  new GarminService(sessionId, sessionToken, (function(err, session) {
 
     if(err) {
       this.emit('error', err);
+      this._garminService = null;
     } else {
       this.emit('session');
+      this._garminService = session;
     }
 
   }).bind(this));
+
 };
 
 /**
